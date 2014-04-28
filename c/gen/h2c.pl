@@ -24,7 +24,7 @@ GetOptions(\%args, qw(
     )
 );
 
-my $tab = $a{'real-tabs'} ? "\t" : ' ' x ($a{'tab-length'} // 4);
+my $tab = $args{'real-tabs'} ? "\t" : ' ' x ($args{'tab-length'} // 4);
 
 sub trim {
     local $_ = shift // $_;
