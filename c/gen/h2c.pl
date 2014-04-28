@@ -1,4 +1,4 @@
-#! /usr/bin/perl -CSD -l -w
+#! /usr/bin/perl -CSD
 
 use strict;
 use warnings;
@@ -9,6 +9,10 @@ use constant {
     DEBUG => 1,
     TAB => ' ' x 4,
 };
+
+# workaround for -l switch
+chmop $/;
+$\ = "\n";
 
 sub trim {
     $_ = shift // $_;
