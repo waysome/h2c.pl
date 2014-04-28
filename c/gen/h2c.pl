@@ -21,3 +21,13 @@ $_ = do {
     open my $f, '<', $name or die "Could not open \"$name\": $!\n";
     <$f>;
 };
+
+# preprocessor: shrink multiline macros into one line
+s/\s*\\\n\s*/ /gs;
+
+# comments: remove block comments
+s/\/\*.*?\*\// /gs;
+
+# gcc: remove GTY macro structs
+# s/struct\s+(?:[\w-]+\s+)*GTY\(\(.*?\){2,}\s*(?:[\w-]+\s*)\{.*?\}/ /gs;
+s/(?:struct|union)\s+.*?\{.*?\}/ /gs;
