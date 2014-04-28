@@ -67,6 +67,10 @@ for (@lines) {
 # pick up all function declarations
 my @functions;
 
+# reserved words for function parameter interpretation
+my @keywords = qw(unsigned signed static const volatile register
+              extern struct union);
+
 # final commands to work with
 my @commands = split /;/, join ' ', @lines;
 s/\n//gs for @commands;
@@ -81,6 +85,9 @@ for (@commands) {
 
     # searching for function definitions
     if (/\s*((?:[\w-]+\s+)+)(\w+)\s*\(.*?\)\s*/) {
+        # auto generate variables if no name is given
+        my $tmp = 'a';
+
         my %func = (
             mod => $1,
             name => $2,
@@ -89,8 +96,25 @@ for (@commands) {
         # get arguments and save them in %func
         if (/$2\s*\((.*?)\)/) {
             for (split /,/, $1) {
+                # move stars to type
+                s/\s*(\*+)\s*/$1 /g;
+
                 trim;
-                push $func{args}, $_;
+
+                # remove stars temporary for paramter interpretation
+                (my $var = $_) =~ s/\*//g;
+                my @tmp;
+
+                # split parameter declaration at spaces
+                for my $word (split /\s+/, $var) {
+                    # pick all unknown words (they are types or names)
+                    push @tmp, $word if not grep { $_ eq $word } @keywords;
+                }
+
+                # save parameter
+                # if length(@tmp) <= 1, only a type is given
+                # otherways a name is given, too
+                push $func{args}, (@tmp <= 1 ? "$_ " . $tmp++ : $_);
             }
 
             # save function
