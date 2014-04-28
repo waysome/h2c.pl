@@ -31,3 +31,24 @@ s/\/\*.*?\*\// /gs;
 # gcc: remove GTY macro structs
 # s/struct\s+(?:[\w-]+\s+)*GTY\(\(.*?\){2,}\s*(?:[\w-]+\s*)\{.*?\}/ /gs;
 s/(?:struct|union)\s+.*?\{.*?\}/ /gs;
+
+# pick up all includes, using hashes because they are unique
+my %includes;
+
+# split file into lines and iterate over each line
+my @lines = split /\n/;
+for (@lines) {
+    # comments: remove single line comments
+    s/\/\/.*$/ /;
+
+    # preprocessor: remove preprocessor lines and pick up includes
+    if (/^\s*#\s*(\w+)\s*(.*)/) {
+        if ($1 eq 'include') {
+            $includes{$2} = 1;
+        } elsif ($1 =~ /^if/) {
+            # TODO:
+        }
+        $_ = '';
+    }
+}
+
