@@ -15,7 +15,7 @@ chomp $/;
 $\ = "\n";
 
 sub trim {
-    $_ = shift // $_;
+    local $_ = shift // $_;
     s/^\s*//;
     s/\s*$//;
     return $_;
@@ -89,8 +89,8 @@ for (@commands) {
         my $tmp = 'a';
 
         my %func = (
-            mod => $1,
-            name => $2,
+            mod => (trim $1),
+            name => (trim $2),
             args => [],
         );
         # get arguments and save them in %func
@@ -99,7 +99,7 @@ for (@commands) {
                 # move stars to type
                 s/\s*(\*+)\s*/$1 /g;
 
-                trim;
+                $_ = trim;
 
                 # remove stars temporary for paramter interpretation
                 (my $var = $_) =~ s/\*//g;
@@ -136,12 +136,12 @@ for (@functions) {
     local $" = ",\n" . TAB;
     push @out, '';
     push @out, $$_{mod};
-    push @out, "$$_{name} (";
+    push @out, "$$_{name}(";
     push @out, TAB . "@{$$_{args}}";
-    push @out, ")";
-    push @out, "{";
-    push @out, "/* TODO */";
-    push @out, "}";
+    push @out, ')';
+    push @out, '{';
+    push @out, TAB . '/* TODO */';
+    push @out, '}';
 }
 
 # save output to file
