@@ -11,3 +11,13 @@ sub trim {
     s/\s*$//;
     return $_;
 }
+
+# if there is a filename in @ARGV use it, otherways take "test.h"
+my $name = shift // "test.h";
+
+# read whole file
+$_ = do {
+    local $/ = undef;
+    open my $f, '<', $name or die "Could not open \"$name\": $!\n";
+    <$f>;
+};
