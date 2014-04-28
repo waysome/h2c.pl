@@ -12,6 +12,7 @@ $\ = "\n";
 # we use getopt for command line parameter handling
 my %args;
 GetOptions(\%args, qw(
+    verbose|v
     )
 );
 
@@ -154,4 +155,8 @@ $outfile =~ s/\.h$/.c/;
 open my $f, '>', $outfile or die "Could not open $outfile: $!\n";
 print $f $_ for @out;
 close $f;
+
+if ($args{verbose}) {
+    print $_ for @out;
+}
 
