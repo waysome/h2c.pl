@@ -10,8 +10,8 @@ use constant {
     TAB => ' ' x 4,
 };
 
-# workaround for -l switch
-chmop $/;
+# workaround for -l switch: automatic line-ending
+chomp $/;
 $\ = "\n";
 
 sub trim {
