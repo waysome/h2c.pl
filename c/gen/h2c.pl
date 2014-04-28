@@ -59,3 +59,30 @@ my @functions;
 my @commands = split /;/, join ' ', @lines;
 s/\n//gs for @commands;
 
+# logical separation
+# loop through all commands
+for (@commands) {
+    # skip typedefs, GTY macros and blocks from enums, ...
+    next if /^\s*typedef/;
+    next if /GTY\(\(.*?\){2,}/;
+    next if /\{.*?\}/;
+
+    # searching for function definitions
+    if (/\s*((?:[\w-]+\s+)+)(\w+)\s*\(.*?\)\s*/) {
+        my %func = (
+            mod => $1,
+            name => $2,
+            args => [],
+        );
+        # get arguments and save them in %func
+        if (/$2\s*\((.*?)\)/) {
+            for (split /,/, $1) {
+                trim;
+                push $func{args}, $_;
+            }
+
+            # save function
+            push @functions, \%func;
+        }
+    }
+}
