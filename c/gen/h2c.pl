@@ -13,6 +13,7 @@ $\ = "\n";
 my %args;
 GetOptions(\%args, qw(
     verbose|v
+    output|o=s
     )
 );
 
@@ -149,13 +150,20 @@ for (@functions) {
     push @out, '}';
 }
 
-# save output to file
-my $outfile = $name;
-$outfile =~ s/\.h$/.c/;
-open my $f, '>', $outfile or die "Could not open $outfile: $!\n";
-print $f $_ for @out;
-close $f;
+# if output flag is set and given name is not 'none': save file
+if (defined $args{output} and $args{output} ne 'none') {
+    # save output to file
+    # use the same filename as the header file with exchanged ending
+    # or if given the name from command line
+    my $outfile = $args{output} // $name;
+    $outfile =~ s/\.h$/.c/ if $outfile eq $name;
 
+    open my $f, '>', $outfile or die "Could not open $outfile: $!\n";
+    print $f $_ for @out;
+    close $f;
+}
+
+# print output to stdout if verbosity flag is set
 if ($args{verbose}) {
     print $_ for @out;
 }
