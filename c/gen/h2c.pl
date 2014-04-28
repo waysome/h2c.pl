@@ -22,7 +22,7 @@ GetOptions(\%args, qw(
 
 use constant {
     DEBUG => 1,
-    TAB => (defined $args{'real-tabs' ? "\t" : (' ' x $args{tab} // 4)),
+    TAB => (defined $args{'real-tabs' ? "\t" : (' ' x $args{'tab-length'} // 4)),
 };
 
 sub trim {
