@@ -52,3 +52,10 @@ for (@lines) {
     }
 }
 
+# pick up all function declarations
+my @functions;
+
+# final commands to work with
+my @commands = split /;/, join ' ', @lines;
+s/\n//gs for @commands;
+
