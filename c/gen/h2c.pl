@@ -12,6 +12,8 @@ $\ = "\n";
 # we use getopt for command line parameter handling
 my %args;
 GetOptions(\%args, qw(
+    tab-length|t=i
+    real-tabs
     verbose|v
     output|o=s
     licence|l=s
@@ -20,7 +22,7 @@ GetOptions(\%args, qw(
 
 use constant {
     DEBUG => 1,
-    TAB => ' ' x 4,
+    TAB => (defined $args{'real-tabs' ? "\t" : (' ' x $args{tab} // 4)),
 };
 
 sub trim {
