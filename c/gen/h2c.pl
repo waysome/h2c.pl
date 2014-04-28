@@ -130,9 +130,6 @@ for (@commands) {
     }
 }
 
-print Dumper \%includes if DEBUG;
-print Dumper \@functions if DEBUG;
-
 # build output
 # we use arrays because of configurability
 my @out;
