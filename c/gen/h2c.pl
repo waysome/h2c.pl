@@ -5,6 +5,11 @@ use warnings;
 use Data::Dumper;               # for debugging
 # use Getopt::Long;             # not yet needed
 
+use constant {
+    DEBUG => 1,
+    TAB => ' ' x 4,
+};
+
 sub trim {
     $_ = shift // $_;
     s/^\s*//;
@@ -86,3 +91,6 @@ for (@commands) {
         }
     }
 }
+
+print Dumper \%includes if DEBUG;
+print Dumper \@functions if DEBUG;
