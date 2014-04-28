@@ -2,17 +2,23 @@
 
 use strict;
 use warnings;
+use Getopt::Long;
 use Data::Dumper;               # for debugging
-# use Getopt::Long;             # not yet needed
+
+# workaround for -l switch: automatic line-ending
+chomp $/;
+$\ = "\n";
+
+# we use getopt for command line parameter handling
+my %args;
+GetOptions(\%args, qw(
+    )
+);
 
 use constant {
     DEBUG => 1,
     TAB => ' ' x 4,
 };
-
-# workaround for -l switch: automatic line-ending
-chomp $/;
-$\ = "\n";
 
 sub trim {
     local $_ = shift // $_;
@@ -95,9 +101,7 @@ for (@commands) {
         );
         # get arguments and save them in %func
         if (/$2\s*\((.*?)\)/) {
-            for (split /,/, $1) {
-                # move stars to type
-                s/\s*(\*+)\s*/$1 /g;
+            for (split /,/, $1) { # move stars to type s/\s*(\*+)\s*/$1 /g;
 
                 $_ = trim;
 
