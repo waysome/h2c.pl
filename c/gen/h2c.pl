@@ -17,6 +17,9 @@ sub trim {
     return $_;
 }
 
+# print usage if -h or --help is in @ARGV
+print "Usage h2c.pl <filename>\n", exit if grep { /--?h(?:help)?/ } @ARGV;
+
 # if there is a filename in @ARGV use it, otherways take "test.h"
 my $name = shift // "test.h";
 
