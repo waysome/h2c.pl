@@ -13,6 +13,13 @@ use constant {
 chomp $/;
 $\ = "\n";
 
+sub trim {
+    local $_ = shift // $_;
+    s/^\s*//;
+    s/\s*$//;
+    return $_;
+}
+
 # we use getopt for command line parameter handling
 my %args;
 GetOptions(\%args, qw(
@@ -25,13 +32,6 @@ GetOptions(\%args, qw(
 );
 
 my $tab = $args{'real-tabs'} ? "\t" : ' ' x ($args{'tab-length'} // 4);
-
-sub trim {
-    local $_ = shift // $_;
-    s/^\s*//;
-    s/\s*$//;
-    return $_;
-}
 
 # print usage if -h or --help is in @ARGV
 print "Usage h2c.pl <filename>\n", exit if grep { /--?h(?:help)?/ } @ARGV;
