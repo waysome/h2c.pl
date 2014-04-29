@@ -138,7 +138,7 @@ for (@commands) {
 my @out;
 
 # insert the licence if the according flag is set
-if (defined $args{licence}) {
+if ($args{licence}) {
     $_ = trim do {
         local $/ = undef;
         open my $f, '<', $args{licence}
@@ -168,7 +168,7 @@ for (@functions) {
 }
 
 # if output flag is set and given name is not 'none': save file
-if (defined $args{output} and $args{output} ne 'none') {
+if (not $args{output} or $args{output} ne 'none') {
     # save output to file
     # use the same filename as the header file with exchanged ending
     # or if given the name from command line
