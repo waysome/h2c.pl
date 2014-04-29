@@ -28,13 +28,14 @@ GetOptions(\%args, qw(
     verbose|v
     output|o=s
     licence|l=s
+    help|h
     )
 );
 
 my $tab = $args{'real-tabs'} ? "\t" : ' ' x ($args{'tab-length'} // 4);
 
-# print usage if -h or --help is in @ARGV
-print "Usage h2c.pl <filename>\n", exit if grep { /--?h(?:help)?/ } @ARGV;
+# print help and exit if help flag is set
+system "perldoc $0" and exit if $args{help};
 
 # if there is a filename in @ARGV use it, otherways take "test.h"
 my $name = shift // "test.h";
@@ -185,3 +186,52 @@ if ($args{verbose}) {
     print $_ for @out;
 }
 
+__END__
+
+=head1 NAME
+
+    h2c.pl
+
+=head1 SYNOPSIS
+
+              h2c.pl [option(s)] <header_file>
+    perl -CSD h2c.pl [option(s)] <header_file>
+
+=head1 DESCRIPTION
+
+=over 4
+
+`h2c.pl' is a tool which automatically generate a c source file from given
+header files. The output file will be named as the input header file, with
+exchanged ending. But there is a flag which can change this behaviour.
+Standard indention are 4 spaces. Alternatively you can add a licence, which
+will be included.
+
+=back
+
+=head1 OPTIONS
+
+    -h | --help
+        show this page
+
+    -l | --licence <filename>
+        add the given licence in comments at the top of the output
+
+    -o | --output <filename>
+        you can specify an output filename,
+        or if <filename> equals 'none', no file is written
+
+    --real-tabs
+        use real tabs for indention
+
+    -t | --tab-length <positiv_integer>
+        use spaces to indent, default is 4
+
+    -v | --verbose
+        print output also to stdout
+
+=head1 AUTHOR
+
+    Manuel Johannes Messner
+
+=cut
