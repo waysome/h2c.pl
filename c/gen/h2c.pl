@@ -82,7 +82,7 @@ my @functions;
 
 # reserved words for function parameter interpretation
 my @keywords = qw(unsigned signed static const volatile register
-              extern struct union);
+              extern struct union enum);
 
 # final commands to work with
 my @commands = split /;/, join ' ', @lines;
