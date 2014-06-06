@@ -106,6 +106,7 @@ for (@commands) {
             name => (trim $2),
             args => [],
         );
+
         # get arguments and save them in %func
         if (/$2\s*\((.*?)\)/) {
             for (split /,/, $1) { # move stars to type s/\s*(\*+)\s*/$1 /g;
