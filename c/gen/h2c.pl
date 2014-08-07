@@ -85,7 +85,7 @@ my @keywords = qw(unsigned signed static const volatile register
               extern struct union enum);
 
 # final commands to work with
-my @commands = split /;/, join ' ', @lines;
+my @commands = split /\s*;\s*/, join ' ', @lines;
 s/\n//gs for @commands;
 
 # logical separation
