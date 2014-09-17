@@ -452,14 +452,22 @@ sub dump_add($$) {
     dump_function $data->{functions}->{$_} for @{$todo->{added}};
 }
 
+################################################################################
+# select streams                                                               #
+################################################################################
+# selects the stdout stream
 sub to_stdout {
     select STDOUT;
 }
 
+# selects the stderr stream
 sub to_stderr {
     select STDERR;
 }
 
+# selects a given stream
+#
+# input:  file steam which can be std* or a file handle
 sub to_stream($) {
     select shift;
 }
