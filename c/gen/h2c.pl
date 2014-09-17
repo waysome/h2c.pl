@@ -280,6 +280,13 @@ sub parse_file(;$) {
 ################################################################################
 # compare                                                                      #
 ################################################################################
+# figures out whether there are functions in the header file which are not in
+# the source file, these will be added directly
+#
+# input:  1. a reference to the current hash of the header function
+#         2. a reference to the complete source hash
+#         3. a reference to the return hash, containing the functions to add
+# output: true or false depending on the result of the comparison
 sub compare_amount($$$) {
     my ($curh, $src, $return) = @_;
 
@@ -292,6 +299,14 @@ sub compare_amount($$$) {
     return 0;
 }
 
+# figures out whether there are functions in the header and source file which
+# have the same names, but different return values or paramter lengths
+#
+# input:  1. a reference to the current hash of the header function
+#         2. a reference to the current hash of the source function
+#         3. a reference to the return hash, containing the function names where
+#            conflictes occured and a description
+# output: true or false depending on the result of the comparison
 sub compare_mod_args($$$) {
     my ($curh, $curs, $return) = @_;
 
@@ -306,6 +321,15 @@ sub compare_mod_args($$$) {
     return 0;
 }
 
+# figures out whether there are functions in the header and source file which
+# have the same names, the same return values and the same amount of parameters
+# but with different kind of parameters
+#
+# input:  1. a reference to the current hash of the header function
+#         2. a reference to the complete source hash
+#         3. a reference to the return hash, containing the function names where
+#            conflictes occured and a description
+# output: true or false depending on the result of the comparison
 sub compare_args($$$) {
     my ($curh, $curs, $return) = @_;
 
@@ -315,6 +339,14 @@ sub compare_args($$$) {
     } if not eq_array get_var_type($curs->{args}), get_var_type($curh->{args});
 }
 
+# bring all comparison actions together...
+# compares the two hashes (of the source and of the header file) and tries to
+# find conflicts or missing functions.
+#
+# input:  1. a refrence to the complete header hash
+#         2. a reference to the complete source hash
+# output: a reference to the resulting hash containing the problems which were
+#         found
 sub compare($$) {
     my ($hdr, $src) = @_;
 
@@ -329,8 +361,6 @@ sub compare($$) {
           "compare:\n" . Dumper $return->{error} if DEBUG;
     return $return;
 }
-
-
 
 ################################################################################
 # dump                                                                         #
