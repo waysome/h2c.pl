@@ -1,4 +1,4 @@
-#! /usr/bin/perl -l
+#! /usr/bin/perl -CSD
 
 use strict;
 use warnings;
@@ -55,7 +55,6 @@ sub usage {
 # input:  string to generate the basename from
 # output: the basename
 sub basename {
-
     return $1 if shift =~ /\/?([^\/]+)$/;
     return undef;
 }
