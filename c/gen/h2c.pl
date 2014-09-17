@@ -475,6 +475,9 @@ sub to_stream($) {
 ################################################################################
 # parse args                                                                   #
 ################################################################################
+# changes the initianal arguments to usable ones
+#
+# input:  a reference to the arguments hash provided by parse_args
 sub eval_args($) {
     my $args = shift;
 
@@ -491,6 +494,10 @@ sub eval_args($) {
     return $args;
 }
 
+# parses the arguments given to the script at statup
+# the long forms of the arguments are accepted in two ways:
+# --<name> <value>
+# --<name>=<value>
 sub parse_args {
     my $args = create_hash 'args';
     local @_ = @{$args->{raw}};
@@ -523,6 +530,8 @@ sub main {
     $args = parse_args;
     my $hdr = parse_file $args->{fname};
     my $todo;
+
+    # TODO: licence is missing
 
     if (not -e $args->{output}) {
         to_stream get_output_stream;
