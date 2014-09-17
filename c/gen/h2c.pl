@@ -15,7 +15,7 @@ $\ = "\n";
 
 my $args;
 
-sub trim {
+sub trim(;$) {
     local $_ = shift // $_;
     s/^\s*//;
     s/\s*$//;
@@ -54,7 +54,7 @@ sub usage {
 #
 # input:  string to generate the basename from
 # output: the basename
-sub basename {
+sub basename($) {
     return $1 if shift =~ /\/?([^\/]+)$/;
     return undef;
 }
@@ -188,7 +188,7 @@ sub get_includes($$) {
 #
 # input:  array of variable declarations
 # output: their type
-sub get_var_type {
+sub get_var_type(;$) {
     my @args = @{shift // $_};
 
     s/\s+\w+$// for @args;
@@ -365,7 +365,7 @@ sub compare($$) {
 ################################################################################
 # dump                                                                         #
 ################################################################################
-sub dump_success($) {
+sub dump_success(;$) {
     my $todo = shift // $_;
 
     unless (@{$todo->{added}}) {
@@ -377,7 +377,7 @@ sub dump_success($) {
     print "> $_" for sort @{$todo->{added}};
 }
 
-sub dump_errors($) {
+sub dump_errors(;$) {
     my $todo = shift // $_;
 
     unless (@{$todo->{error}}) {
@@ -462,7 +462,7 @@ sub eval_args($) {
     return $args;
 }
 
-sub parse_args(@) {
+sub parse_args {
     my $args = create_hash 'args';
     local @_ = @{$args->{raw}};
 
