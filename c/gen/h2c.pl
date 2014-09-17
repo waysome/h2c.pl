@@ -365,6 +365,9 @@ sub compare($$) {
 ################################################################################
 # dump                                                                         #
 ################################################################################
+# prints an summary of the successfully executed changes
+#
+# input:  a reference to the instance of a todo hash
 sub dump_success(;$) {
     my $todo = shift // $_;
 
@@ -377,6 +380,9 @@ sub dump_success(;$) {
     print "> $_" for sort @{$todo->{added}};
 }
 
+# prints an summary of the functions where conflicts were found
+#
+# input:  a reference to the instance of a todo hash
 sub dump_errors(;$) {
     my $todo = shift // $_;
 
@@ -385,6 +391,7 @@ sub dump_errors(;$) {
         return;
     }
 
+    # find the length of the largest function name in $todo->{errors}
     my $len = (sort {$b <=> $a} map {length $_->{name}} @{$todo->{error}})[0];
 
     print "Conflicts found:";
@@ -394,12 +401,16 @@ sub dump_errors(;$) {
     print '';
 }
 
+# prints the content of a file containing a licence
 sub dump_licence {
     return unless $args->{licence};
 
     print get_file_contents $args->{licence};
 }
 
+# prints a given the function in a given kind
+#
+# input:  a reference to a function hash
 sub dump_function(;$) {
     local $_ = shift // $_;
     local $" = ",\n$args->{tab}";
@@ -410,6 +421,10 @@ sub dump_function(;$) {
     print ") {\n$args->{tab}/* TODO */\n}\n";
 }
 
+# prints the header of the source file, containing the includes
+#
+# input:  1. a reference to the complete header hash
+#         2. the basename of the header file
 sub dump_header($$) {
     my ($data, $base) = @_;
 
@@ -419,12 +434,18 @@ sub dump_header($$) {
     print "\n";
 }
 
+# prints the functions as well as the headers
+#
+# input:  1. a reference to the complete header hash
+#         2. the basename of the header file
 sub dump_all($$) {
     my ($data, $base) = @_;
     dump_header $data, $base;
     dump_function for values %{$data->{functions}};
 }
 
+# prints only the missing functions which are defined in the header file, but
+# not yet implemented in the source file
 sub dump_add($$) {
     my ($data, $todo) = @_;
 
