@@ -15,13 +15,6 @@ $\ = "\n";
 
 my $args;
 
-sub trim(;$) {
-    local $_ = shift // $_;
-    s/^\s*//;
-    s/\s*$//;
-    return $_;
-}
-
 ################################################################################
 # Definitions                                                                  #
 ################################################################################
@@ -44,6 +37,17 @@ my @keywords = qw(
 ################################################################################
 # Utils                                                                        #
 ################################################################################
+# trims a given input string
+#
+# input:  string to be trimmed
+# output: the trimmed string
+sub trim(;$) {
+    local $_ = shift // $_;
+    s/^\s*//;
+    s/\s*$//;
+    return $_;
+}
+
 # prints the usage of this script with perldoc
 sub usage {
     system "perldoc $0";
