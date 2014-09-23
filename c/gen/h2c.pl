@@ -532,8 +532,6 @@ sub main {
     my $hdr = parse_file $args->{fname};
     my $todo;
 
-    # TODO: licence is missing
-
     if (not -e $args->{output}) {
         to_stream get_output_stream;
         dump_licence $args->{licence} if $args->{licence};
