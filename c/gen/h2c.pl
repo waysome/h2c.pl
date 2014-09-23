@@ -405,7 +405,7 @@ sub dump_errors(;$) {
 sub dump_licence {
     return unless $args->{licence};
 
-    print get_file_contents $args->{licence};
+    print get_file_contents $args->{licence} . "\n";
 }
 
 # prints a given the function in a given kind
@@ -526,6 +526,7 @@ sub parse_args {
 ################################################################################
 # main                                                                         #
 ################################################################################
+# initialize and start the whole thing
 sub main {
     $args = parse_args;
     my $hdr = parse_file $args->{fname};
@@ -535,6 +536,7 @@ sub main {
 
     if (not -e $args->{output}) {
         to_stream get_output_stream;
+        dump_licence $args->{licence} if $args->{licence};
         dump_all $hdr, $args->{base};
         $todo = {
             added => [keys %{$hdr->{functions}}]
@@ -544,6 +546,7 @@ sub main {
         $todo = compare $hdr, $src;
 
         to_stream get_output_stream;
+        dump_licence $args->{licence} if $args->{licence};
         dump_add $hdr, $todo if -r $args->{output} and -w $args->{output};
     }
 
@@ -616,5 +619,4 @@ not hinder shell level redirections.
     Manuel Johannes Messner
 
 =cut
-
 
