@@ -495,6 +495,7 @@ sub eval_args($) {
 }
 
 # parses the arguments given to the script at statup
+# we don't use getopt because we have as less dependencies as possible in mind
 # the long forms of the arguments are accepted in two ways:
 # --<name> <value>
 # --<name>=<value>
