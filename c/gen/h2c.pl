@@ -381,6 +381,7 @@ sub dump_success(;$) {
 
     print "Added the following functions:";
     print "> $_" for sort @{$todo->{added}};
+    print ''
 }
 
 # prints an summary of the functions where conflicts were found
