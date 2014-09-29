@@ -2,11 +2,6 @@
 
 use strict;
 use warnings;
-use Data::Dumper;
-
-use constant {
-    DEBUG => 0,
-};
 
 # workaround for -l switch: automatic line-endings
 chomp $/;
@@ -281,8 +276,6 @@ sub parse_file(;$) {
         }
     }
 
-    print '-' x qx(tput cols) . "\n" . "parse_file:\n" . Dumper $return if DEBUG;
-
     return $return;
 }
 
@@ -369,8 +362,6 @@ sub compare($$) {
         compare_args $_, $src->{functions}->{$_->{name}}, $return;
     }
 
-    print '-' x qx(tput cols) . "\n" .
-          "compare:\n" . Dumper $return->{error} if DEBUG;
     return $return;
 }
 
@@ -500,8 +491,6 @@ sub eval_args($) {
 
     $args->{tab} = $args->{rl_tabs} ? "\t" : ' ' x $args->{ln_tab};
 
-    print '-' x qx(tput cols) . "\neval_args\n" . Dumper $args if DEBUG;
-
     return $args;
 }
 
@@ -534,7 +523,6 @@ sub parse_args {
         $args->{fname} = $_;
     }
 
-    print '-' x qx(tput cols) . "\nparse_args\n" . Dumper $args if DEBUG;
     return eval_args $args;
 }
 
@@ -562,8 +550,6 @@ sub main {
 
     to_stream get_output_stream;
     dump_licence $args->{licence} if $args->{licence};
-
-    print Dumper $args;
 
     if ($all) {
         $todo = create_hash 'compare_fake', $hdr;
