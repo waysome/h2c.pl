@@ -440,8 +440,8 @@ sub dump_function(;$) {
 sub dump_header($$) {
     my ($data, $base) = @_;
 
-    print "#include \"$base\"\n";
     print "#include $_" for keys %{$data->{includes}};
+    print "\n#include \"$base\"";
     print "\n";
 }
 
