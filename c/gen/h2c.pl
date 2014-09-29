@@ -409,7 +409,7 @@ sub dump_error(;$) {
 sub dump_licence {
     return unless $args->{licence};
 
-    print get_file_contents $args->{licence} . "\n";
+    print get_file_contents($args->{licence}) . "\n";
 }
 
 # prints a given the function in a given kind
